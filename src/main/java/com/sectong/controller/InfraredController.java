@@ -77,9 +77,6 @@ public class InfraredController {
 
     @ApiOperation(httpMethod = "GET", value = "获取红外码",notes = "获取某设备和品牌下的一种型号下的所有红外码，具体可参数ACCESS数据表")
     @ApiImplicitParams({
-//            @ApiImplicitParam(name = "device", value = "设备", required = true, dataType = "String")
-//            ,@ApiImplicitParam(name = "brands", value = "品牌", required = true, dataType = "String")
-//            ,@ApiImplicitParam(name = "model", value = "型号", required = true, dataType = "String")
     })
     @RequestMapping(method = RequestMethod.GET, value = "/model/{device}/{brands}/{model}")
     public ResponseEntity<Message> ordersByModel(HttpServletRequest request, @PathVariable String brands,

@@ -131,10 +131,6 @@ public class UserController {
             userService.create(form);
         } catch (Exception e) {
             e.printStackTrace();
-            // probably email already exists - very rare case when multiple
-            // admins are adding same user
-            // at the same time and form validation has passed for more than one
-            // of them.
             LOGGER.warn("Exception occurred when trying to save the user, assuming duplicate username", e);
             message.setMsg(APIEm.FAIL.getCode(), "user_create error: username already exists");
             return new ResponseEntity<>(message, HttpStatus.OK);
@@ -198,8 +194,6 @@ public class UserController {
 	@RequestMapping(value = "/i/user/{id}", method = RequestMethod.GET)
 	public User findByUserId(@PathVariable long id) {
 		User user = userRepository.findOne(id);
-		// HttpStatus status = user != null ? HttpStatus.OK :
-		// HttpStatus.NOT_FOUND;
 		return user;
 	}
 
@@ -214,7 +208,7 @@ public class UserController {
 	public ResponseEntity<User> findById(@PathVariable long id) {
 		User user = userRepository.findOne(id);
 		HttpStatus status = user != null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-		return new ResponseEntity<User>(user, status);
+		return new ResponseEntity<>(user, status);
 	}
 
 	/**
@@ -240,7 +234,7 @@ public class UserController {
 	public ResponseEntity<Message> list(Pageable p) {
 
 		message.setMsg(1, "List Users", userService.listAllUsers(p));
-		return new ResponseEntity<Message>(message, HttpStatus.OK);
+		return new ResponseEntity<>(message, HttpStatus.OK);
 
 	}
 
@@ -248,7 +242,7 @@ public class UserController {
 	@RequestMapping(value = "/i/uploadImage", method = RequestMethod.POST)
 	public ResponseEntity<?> uploadImage(@RequestParam MultipartFile file, HttpServletRequest request) {
 		message.setMsg(1, "upload user image", userService.uploadImage(file, request));
-		return new ResponseEntity<Message>(message, HttpStatus.OK);
+		return new ResponseEntity<>(message, HttpStatus.OK);
 
 	}
 

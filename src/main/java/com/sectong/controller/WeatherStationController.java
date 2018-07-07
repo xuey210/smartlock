@@ -71,12 +71,7 @@ public class WeatherStationController {
             weatherStation = JsonUtil.parseObject(requestString, WeatherStation.class);
             _tempString = JsonUtil.toJSONString(weatherStation);
             weatherStation.setDeviceMAC(weatherStation.getDevice_MAC());
-//            weatherStation.setCreateDate(DateTools.getGMT8Time());
             weatherStation.setCreateDate(new Date());
-//            WeatherModle weatherModle = new WeatherModle();
-//            weatherModle.setDeviceMAC(weatherStation.getDevice_MAC());
-//            weatherModle.setWeatherData(JSON.parse(_tempString));
-//            weatherModle.setCreateDate(new Date());
             weatherService.insertWeather(weatherStation);
 
         } catch (IOException e) {
@@ -101,23 +96,15 @@ public class WeatherStationController {
             String requestString = IOUtils.toString(request.getInputStream());
             LOGGER.info("收到请求 :{}", new Object[]{requestString});
             Assert.notNull(requestString, "can not be null");
-//            weatherStation = JsonUtil.parseObject(requestString, WeatherStation.class);
-//            _tempString = JsonUtil.toJSONString(weatherStation);
-//            WeatherModle weatherModle = new WeatherModle();
-//            weatherModle.setDeviceMAC(weatherStation.getDevice_MAC());
-//            weatherModle.setWeatherData(JSON.parse(_tempString));
-//            weatherModle.setCreateDate(System.currentTimeMillis());
-//            weatherService.insertWeather(weatherModle);
         } catch (IOException e) {
             LOGGER.error("post exception :{}", e);
             e.printStackTrace();
             weatherStation = new WeatherStation();
             weatherReturn.setDevice_MAC(weatherStation.getDevice_MAC());
             weatherReturn.setDevice_software_updateflag("fault");
-//            _tempString = JSON.serialize(weatherStation);
         }
         message.setMsg(APIEm.SUCCESS.getCode(), APIEm.SUCCESS.getMessage(), "success");
-        return new ResponseEntity<Message>(message, HttpStatus.OK);
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     @ApiOperation(httpMethod = "GET", value = "获取天气数据",
